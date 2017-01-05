@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 {{#operations}}
 {{#operation}}
 public class {{classname}} implements HttpHandler {
-
+    @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         {{^returnType}}
         {{/returnType}}

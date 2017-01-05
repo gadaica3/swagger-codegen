@@ -9,7 +9,7 @@ import io.undertow.util.Methods;
 import {{apiPackage}}.*;
 
 public class PathHandlerProvider implements HandlerProvider {
-
+    @Override
     public HttpHandler getHandler() {
         HttpHandler handler = Handlers.routing()
 {{#apiInfo}}
