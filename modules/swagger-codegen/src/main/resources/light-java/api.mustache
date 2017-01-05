@@ -15,7 +15,7 @@ public class {{classname}} implements HttpHandler {
         {{^returnType}}
         {{/returnType}}
         {{#returnType}}
-        Map<String, Object> examples = new HashMap<String, Object>();
+        Map<String, Object> examples = new HashMap<>();
         {{#examples}}
         examples.put("{{contentType}}", StringEscapeUtils.unescapeHtml4("{{example}}"));
         {{/examples}}

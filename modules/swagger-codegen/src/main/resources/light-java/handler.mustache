@@ -11,7 +11,7 @@ import {{apiPackage}}.*;
 public class PathHandlerProvider implements HandlerProvider {
     @Override
     public HttpHandler getHandler() {
-        HttpHandler handler = Handlers.routing()
+        return Handlers.routing()
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -22,7 +22,6 @@ public class PathHandlerProvider implements HandlerProvider {
 {{/apis}}
 {{/apiInfo}}
         ;
-        return handler;
     }
 }
 
