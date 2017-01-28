@@ -90,7 +90,7 @@ public class LightJavaCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("shutdownHookProvider.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.ShutdownHookProvider"));
 
         // configuration files
-        supportingFiles.add(new SupportingFile("server.json", ("src.main.resources.config").replace(".", java.io.File.separator), "server.json"));
+        supportingFiles.add(new SupportingFile("server.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "server.json"));
         supportingFiles.add(new SupportingFile("security.json", ("src.main.resources.config").replace(".", java.io.File.separator), "security.json"));
         supportingFiles.add(new SupportingFile("primary.crt", ("src.main.resources.config.oauth").replace(".", java.io.File.separator), "primary.crt"));
         supportingFiles.add(new SupportingFile("secondary.crt", ("src.main.resources.config.oauth").replace(".", java.io.File.separator), "secondary.crt"));
