@@ -2,9 +2,9 @@ package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.codegen.*;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import io.swagger.models.*;
+import io.swagger.models.auth.OAuth2Definition;
+import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
@@ -279,8 +279,35 @@ public class LightJavaCodegen extends AbstractJavaCodegen {
         super.preprocessSwagger(swagger);
         // add info/server endpoint to the swagger.
         if (swagger != null) {
+            // update ouath2 type to add another scope for server info
+            String authName = null;
+            Map<String, SecuritySchemeDefinition> defs = swagger.getSecurityDefinitions();
+            for (String name : defs.keySet()) {
+                SecuritySchemeDefinition def = defs.get(name);
+                if (def != null && def instanceof OAuth2Definition) {
+                    authName = name;
+                    OAuth2Definition oauth2Definition = (OAuth2Definition) def;
+                    Map<String, String> scopes = oauth2Definition.getScopes();
+                    scopes.put("server.info.r", "read server info");
+                }
+            }
+
+            // add path for server info
             Path path = new Path();
             Operation get = new Operation();
+            // add response to the operation
+            Response response = new Response();
+            response.description("successful operation");
+            get.addResponse("200", response);
+            if(authName != null) {
+                List<String> strings = new ArrayList<>();
+                strings.add("server.info.r");
+                Map<String, List<String>> map = new HashMap<>();
+                map.put(authName, strings);
+                List<Map<String, List<String>>> security = new ArrayList<>();
+                security.add(map);
+                get.setSecurity(security);
+            }
             path.set("get", get);
             Map<String, Path> paths = swagger.getPaths();
             paths.put("/server/info", path);
