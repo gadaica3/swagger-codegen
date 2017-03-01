@@ -3,7 +3,10 @@ package io.swagger.codegen.languages;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
+import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.FormParameter;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -268,6 +271,20 @@ public class LightJavaCodegen extends AbstractJavaCodegen {
             return camelize(name);
         } else {
             return camelize(name) + "Handler";
+        }
+    }
+
+    @Override
+    public void preprocessSwagger(Swagger swagger) {
+        super.preprocessSwagger(swagger);
+        // add info/server endpoint to the swagger.
+        if (swagger != null) {
+            Path path = new Path();
+            Operation get = new Operation();
+            path.set("get", get);
+            Map<String, Path> paths = swagger.getPaths();
+            paths.put("/server/info", path);
+            swagger.setPaths(paths);
         }
     }
 }
