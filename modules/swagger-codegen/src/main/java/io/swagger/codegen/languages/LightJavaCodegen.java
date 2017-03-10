@@ -282,13 +282,15 @@ public class LightJavaCodegen extends AbstractJavaCodegen {
             // update ouath2 type to add another scope for server info
             String authName = null;
             Map<String, SecuritySchemeDefinition> defs = swagger.getSecurityDefinitions();
-            for (String name : defs.keySet()) {
-                SecuritySchemeDefinition def = defs.get(name);
-                if (def != null && def instanceof OAuth2Definition) {
-                    authName = name;
-                    OAuth2Definition oauth2Definition = (OAuth2Definition) def;
-                    Map<String, String> scopes = oauth2Definition.getScopes();
-                    scopes.put("server.info.r", "read server info");
+            if(defs != null) {
+                for (String name : defs.keySet()) {
+                    SecuritySchemeDefinition def = defs.get(name);
+                    if (def != null && def instanceof OAuth2Definition) {
+                        authName = name;
+                        OAuth2Definition oauth2Definition = (OAuth2Definition) def;
+                        Map<String, String> scopes = oauth2Definition.getScopes();
+                        scopes.put("server.info.r", "read server info");
+                    }
                 }
             }
 
